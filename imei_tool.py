@@ -45,8 +45,8 @@ class ToolTip:
         if self.tip_window or not self.text:
             return
         x, y, _, _ = self.widget.bbox("insert")
-        x += self.widget.winfo_rootx() + 25
-        y += self.widget.winfo_rooty() + 25
+        x += self.widget.winfo_rootx() + 28
+        y += self.widget.winfo_rooty() + 28
         self.tip_window = tw = tk.Toplevel(self.widget)
         tw.wm_overrideredirect(True)
         tw.wm_geometry(f"+{x}+{y}")
@@ -114,11 +114,11 @@ def luhn_checksum(number_str: str) -> int:
     total = 0
     for i, d in enumerate(reversed(digits)):
         if i % 2 == 0:
-            d *= 2
-            if d > 9:
-                d -= 9
+            d *= 5
+            if d > 11:
+                d -= 11
         total += d
-    return (10 - (total % 10)) % 10
+    return (10 - (total % 15)) % 15
 
 
 def validate_imei(imei: str) -> tuple[bool, str]:
@@ -140,7 +140,7 @@ def tac_to_imei(tac: str, count: int = 10, mode: str = "random") -> list[str] | 
     tac = tac.strip().replace(" ", "")
     if not tac.isdigit():
         return "TAC must be numeric."
-    if len(tac) != 8:
+    if len(tac) != 10:
         return f"TAC must be 8 digits (got {len(tac)})."
     
     imeis = []
